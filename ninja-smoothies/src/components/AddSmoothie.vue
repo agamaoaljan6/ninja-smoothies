@@ -7,11 +7,12 @@
         <input type="text" name="title" v-model="title" />
       </div>
       <div class="field title">
-          <label for="add-ingredient">Add An Ingredient</label>
-          <input type="text" name="add-ingredient"/>
+        <label for="add-ingredient">Add An Ingredient</label>
+        <input type="text" name="add-ingredient" @keydown.tab.prevent="addIng" v-model="another" />
       </div>
       <div class="field center-align">
-          <button class="btn pink">Add Smoothie</button>
+        <p v-if="feedback" class="red-text">{{feedback}}</p>
+        <button class="btn pink">Add Smoothie</button>
       </div>
     </form>
   </div>
@@ -22,28 +23,41 @@ export default {
   name: "AddSmoothie",
   data() {
     return {
-        title: null
+      title: null,
+      another: null,
+      ingredients: [],
+      feedback: null
     };
-  }, 
+  },
   methods: {
-      addSmoothie() {
-          console.log(this.title)
+    addSmoothie() {
+      console.log(this.title, this.ingredients);
+    },
+    addIng() {
+      if (this.another) {
+        console.log(this.title, this.ingredients);
+        this.ingredients.push(this.another);
+        this.another = null;
+        this.feedback = null;
+      } else {
+        this.feedback = "You must enter a value to add ingredient";
       }
+    }
   }
 };
 </script>
 
 <style>
 .add-smoothie {
-    margin-top: 60px;
-    padding: 20px;
-    max-width: 500px;
+  margin-top: 60px;
+  padding: 20px;
+  max-width: 500px;
 }
 .add-smoothie h2 {
-    font-size:2em;
-    margin: 20px auto;
+  font-size: 2em;
+  margin: 20px auto;
 }
 .add-smoothie .field {
-    margin: 20px auto;
+  margin: 20px auto;
 }
 </style>
